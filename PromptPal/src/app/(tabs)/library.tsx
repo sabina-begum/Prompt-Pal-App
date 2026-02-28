@@ -123,6 +123,7 @@ const UserSummary = memo(function UserSummary({ userSummary }: UserSummaryProps)
 export default function LibraryScreen() {
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
+  const router = useRouter();
 
   const libraryData = useQuery(
     api.queries.getLibraryData,
@@ -149,6 +150,14 @@ export default function LibraryScreen() {
         <Ionicons name="book-outline" size={64} color="#6B7280" />
         <Text className="text-onSurface text-xl font-black mt-4 mb-2">Library unavailable</Text>
         <Text className="text-onSurfaceVariant text-center">Sign in to view your resources.</Text>
+        <Pressable
+          onPress={() => router.push('/(auth)/sign-in')}
+          className="mt-6 bg-primary px-5 py-3 rounded-full"
+        >
+          <Text className="text-white font-black uppercase tracking-widest text-[10px]">
+            Go To Sign In
+          </Text>
+        </Pressable>
       </SafeAreaView>
     );
   }

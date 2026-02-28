@@ -14,7 +14,8 @@
       "env": {
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     },
     "safe": {
@@ -24,7 +25,8 @@
         "EXPO_PUBLIC_SAFE_MODE": "1",
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     },
     "gesture": {
@@ -34,7 +36,8 @@
         "EXPO_PUBLIC_BOOT_MODE": "gesture",
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     },
     "router": {
@@ -42,9 +45,13 @@
       "distribution": "store",
       "env": {
         "EXPO_PUBLIC_BOOT_MODE": "router",
+        "EXPO_PUBLIC_LIBRARY_ISO_STAGE": "full",
+        "EXPO_PUBLIC_HOME_ISO_STAGE": "convex",
+        "EXPO_ROUTER_APP_ROOT": "src/router-app",
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     },
     "clerk": {
@@ -54,7 +61,8 @@
         "EXPO_PUBLIC_BOOT_MODE": "clerk",
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     },
     "convex": {
@@ -64,7 +72,8 @@
         "EXPO_PUBLIC_BOOT_MODE": "convex",
         "EXPO_PUBLIC_CONVEX_URL": "https://flippant-ferret-306.convex.cloud",
         "EXPO_PUBLIC_CONVEX_SITE_URL": "https://flippant-ferret-306.convex.site",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmV4cG8uZGV2JA"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_live_Y2xlcmsucHJvbXB0cGFsLmNjJA",
+        "EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL": "promptpal://sso-callback"
       }
     }
   },

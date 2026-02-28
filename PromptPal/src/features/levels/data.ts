@@ -371,47 +371,6 @@ export function getUnlockedLevels(): Level[] {
   return localLevels.filter(level => level.unlocked);
 }
 
-/**
- * Checks if a level is unlocked based on its prerequisites
- * @param level - The level to check
- * @param completedLevels - Array of completed level IDs
- * @returns Whether the level is unlocked
- */
-export function isLevelUnlocked(level: Level, completedLevels: string[] = []): boolean {
-  if (!level.prerequisites || level.prerequisites.length === 0) {
-    return level.unlocked;
-  }
-
-  const allPrerequisitesMet = level.prerequisites.every(prereqId =>
-    completedLevels.includes(prereqId)
-  );
-
-  return level.unlocked && allPrerequisitesMet;
-}
-
-/**
- * Gets all levels that should be unlocked based on completed levels
- * @param completedLevels - Array of completed level IDs
- * @returns Array of unlocked levels
- */
-export function getUnlockedLevelsByProgress(completedLevels: string[]): Level[] {
-  const localLevels = createLocalLevelsFromAssets();
-  return localLevels.filter(level => isLevelUnlocked(level, completedLevels));
-}
-
-/**
- * Gets the next level that should be unlocked after completing a level
- * @param completedLevelId - The ID of the completed level
- * @returns The next level to unlock, or null if none
- */
-export function getNextUnlockableLevel(completedLevelId: string): Level | null {
-  const localLevels = createLocalLevelsFromAssets();
-  const lockedLevels = localLevels.filter(level => !level.unlocked);
-
-  return lockedLevels.find(level =>
-    level.prerequisites?.includes(completedLevelId)
-  ) || null;
-}
 
 /**
  * Checks if a level is unlocked based on its prerequisites
@@ -454,4 +413,3 @@ export function getNextUnlockableLevel(completedLevelId: string): Level | null {
     level.prerequisites?.includes(completedLevelId)
   ) || null;
 }
-

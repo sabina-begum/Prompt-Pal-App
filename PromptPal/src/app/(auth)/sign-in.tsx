@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState, useCallback, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { GoogleIcon } from '@/components/GoogleIcon'
-import * as AuthSession from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
 import { logger } from '@/lib/logger'
+import { getClerkErrorMessage, getOAuthRedirectCandidates } from '@/lib/oauthRedirect'
 
 // Browser warming hook for better OAuth UX
 const useWarmUpBrowser = () => {
@@ -97,22 +97,61 @@ export default function SignInScreen() {
     setErrors({})
 
     try {
-      const redirectUrl = AuthSession.makeRedirectUri({
-        scheme: 'promptpal',
-        path: 'sso-callback',
-      })
+      const redirectCandidates = getOAuthRedirectCandidates()
+      let lastError: unknown = null
 
-      const { createdSessionId, setActive: setOAuthActive } = await startSSOFlow?.({
-        strategy: `oauth_${provider}`,
-        redirectUrl,
-      })
+      for (const redirectUrl of redirectCandidates) {
+        try {
+          const ssoAttempt = await startSSOFlow({
+            strategy: `oauth_${provider}`,
+            redirectUrl,
+          })
+          const createdSessionId =
+            ssoAttempt.createdSessionId ??
+            ssoAttempt.signIn?.createdSessionId ??
+            ssoAttempt.signUp?.createdSessionId
 
-      if (createdSessionId) {
-        await setOAuthActive?.({ session: createdSessionId })
-        router.replace('/')
+          if (createdSessionId) {
+            await ssoAttempt.setActive?.({ session: createdSessionId })
+            router.replace('/')
+            return
+          }
+
+          const completionStatus = ssoAttempt.signIn?.status || ssoAttempt.signUp?.status
+          if (completionStatus) {
+            const providerLabel = provider.charAt(0).toUpperCase() + provider.slice(1)
+            lastError = new Error(
+              `${providerLabel} authentication did not complete (status: ${completionStatus}).`
+            )
+            break
+          }
+        } catch (attemptError) {
+          lastError = attemptError
+        }
       }
+
+      const fallbackMessage = `Failed to sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`
+      let errorMessage = getClerkErrorMessage(lastError, fallbackMessage)
+      if (errorMessage.includes('Missing external verification redirect URL for SSO flow')) {
+        const primaryRedirect = redirectCandidates[0] || 'promptpal://sso-callback'
+        const providerLabel = provider.charAt(0).toUpperCase() + provider.slice(1)
+        errorMessage = `${providerLabel} SSO redirect is not configured in Clerk. Add ${primaryRedirect} to Clerk redirect URLs.`
+      }
+
+      logger.error('OAuthSignIn', lastError, {
+        provider,
+        redirectCandidates,
+      })
+      setErrors({ general: errorMessage })
     } catch (err: any) {
-      const errorMessage = err.errors?.[0]?.message || `Failed to sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`
+      let errorMessage = getClerkErrorMessage(
+        err,
+        `Failed to sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`
+      )
+      if (errorMessage.includes('Missing external verification redirect URL for SSO flow')) {
+        const providerLabel = provider.charAt(0).toUpperCase() + provider.slice(1)
+        errorMessage = `${providerLabel} SSO redirect is not configured in Clerk for this app build.`
+      }
       setErrors({ general: errorMessage })
     } finally {
       setIsOAuthLoading(null)

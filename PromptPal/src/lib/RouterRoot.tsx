@@ -1,15 +1,10 @@
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import "../app/global.css";
 
 export default function RouterRoot() {
+  // Isolation build: keep router mode to the smallest possible surface.
   return (
-    <SafeAreaProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="boot" />
-      </Stack>
-      <StatusBar style="light" />
-    </SafeAreaProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="boot" />
+    </Stack>
   );
 }

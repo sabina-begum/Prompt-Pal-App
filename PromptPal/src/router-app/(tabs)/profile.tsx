@@ -2,7 +2,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
 
-export default function RouterIsolateProfileTab() {
+type ProfileIsoStage = 'placeholder' | 'full';
+
+const PROFILE_ISO_STAGE = (
+  process.env.EXPO_PUBLIC_PROFILE_ISO_STAGE || 'placeholder'
+).toLowerCase() as ProfileIsoStage;
+
+function PlaceholderProbe() {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
 
@@ -20,6 +26,16 @@ export default function RouterIsolateProfileTab() {
       )}
     </View>
   );
+}
+
+export default function RouterIsolateProfileTab() {
+  if (PROFILE_ISO_STAGE === 'full') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const FullProfileScreen = require('../../app/(tabs)/profile').default;
+    return <FullProfileScreen />;
+  }
+
+  return <PlaceholderProbe />;
 }
 
 const styles = StyleSheet.create({

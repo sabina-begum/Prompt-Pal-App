@@ -46,6 +46,12 @@ export default function RootLayout() {
     return <ConvexRoot />;
   }
 
+  if (BOOT_MODE === 'full-lite') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const NormalRootLite = require('../lib/NormalRootLite').default;
+    return <NormalRootLite />;
+  }
+
   // Lazy-load the normal root to avoid importing native modules in SAFE_MODE.
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const NormalRoot = require('../lib/NormalRoot').default;

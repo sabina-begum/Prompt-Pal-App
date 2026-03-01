@@ -11,3 +11,4 @@
 - When using `src/router-app` isolation root, always import `src/app/global.css` in `src/router-app/_layout.tsx`; otherwise NativeWind classes render as plain text.
 - Keep Clerk OAuth redirect URLs deterministic (`EXPO_PUBLIC_CLERK_OAUTH_REDIRECT_URL`) and aligned with Clerk dashboard redirect URL allowlist to avoid `Missing external verification redirect URL for SSO flow`.
 - Always verify the EAS profile actually used for TestFlight/local build (`router`, `production`, etc.) has the intended Clerk publishable key; profile-level key drift can route auth to a different Clerk instance than the dashboard being configured.
+- Preserve Clerk token caching in production auth flows; removing `tokenCache` causes avoidable re-auth prompts across app relaunches/updates.

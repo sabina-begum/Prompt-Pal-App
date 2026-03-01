@@ -19,7 +19,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.mikhailspeaks.promptpal",
-      "buildNumber": "36",
+      "buildNumber": "44",
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "privacyManifests": {

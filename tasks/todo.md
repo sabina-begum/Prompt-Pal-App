@@ -191,7 +191,90 @@
 - [x] Narrow Home `convex` probe to single non-auth query (`getLevels`)
 - [x] Remove Home `convex` probe `getUserUsage` query for isolation
 - [x] Sanity-check router-mode iOS export
-- [ ] Validate narrowed Home `convex` probe on device/TestFlight
+- [x] Validate narrowed Home `convex` probe on device/TestFlight
 
 ## Build 36 Review
-- [ ] Confirm Home `convex` probe no longer crashes with `getLevels` only
+- [x] Confirm Home `convex` probe no longer crashes with `getLevels` only
+
+## Build 37 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 37
+- [x] Restore Clerk token cache persistence in provider
+- [x] Add router isolation auth gate to root index route (`/`)
+- [x] Add router isolation auth gate to tabs layout (`/(tabs)`)
+- [x] Sanity-check router-mode iOS export
+- [x] Validate on device that unauthenticated users land on sign-in first
+- [x] Validate session persists across app relaunch/update
+
+## Build 37 Review
+- [x] Confirm auth-first navigation and reduced forced re-sign-in behavior
+
+## Build 38 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 38
+- [x] Add a dedicated Home probe stage for auth-required usage query (`getUserUsage`) behind explicit auth readiness checks
+- [x] Keep current Home `convex` (`getLevels` only) path intact as control
+- [x] Set router profile Home stage to the new usage probe
+- [x] Sanity-check router-mode iOS export
+- [x] Validate Home usage probe on device/TestFlight
+
+## Build 38 Review
+- [x] Confirm `getUserUsage` path is stable in isolation (`usage` probe ready, no crash)
+
+## Build 39 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 39
+- [x] Move router profile `EXPO_PUBLIC_HOME_ISO_STAGE` from `usage` to `full`
+- [x] Sanity-check router-mode iOS export
+- [x] Validate Home full screen path on device/TestFlight
+
+## Build 39 Review
+- [x] Confirm Home remains stable after re-enabling full stage
+
+## Build 40 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 40
+- [x] Add router-isolation Ranking stage switch (`placeholder` / `full`)
+- [x] Set router profile `EXPO_PUBLIC_RANKING_ISO_STAGE=full`
+- [x] Sanity-check router-mode iOS export
+- [x] Validate Ranking full screen path on device/TestFlight
+
+## Build 40 Review
+- [x] Confirm Ranking remains stable after re-enabling full stage
+
+## Build 41 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 41
+- [x] Add router-isolation Profile stage switch (`placeholder` / `full`)
+- [x] Set router profile `EXPO_PUBLIC_PROFILE_ISO_STAGE=full`
+- [x] Sanity-check router-mode iOS export
+- [x] Validate Profile full screen path on device/TestFlight
+
+## Build 41 Review
+- [x] Confirm Profile remains stable after re-enabling full stage
+
+## Build 42 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 42
+- [x] Switch router profile from isolation boot (`router`) to full app boot (`full`)
+- [x] Point router profile app root override to `src/app`
+- [x] Sanity-check full-mode iOS export
+- [x] Validate end-to-end app stability on device/TestFlight with isolation removed
+
+## Build 42 Review
+- [x] Confirm full app path is unstable without router isolation scaffolding (launch crash, `cfBundleVersion` 42)
+
+## Build 43 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 43
+- [x] Add `full-lite` boot mode that mounts only known-stable tabs/auth stack under `src/app`
+- [x] Switch router profile `EXPO_PUBLIC_BOOT_MODE` to `full-lite`
+- [x] Sanity-check `full-lite` iOS export on `src/app` root
+- [x] Validate launch stability on device/TestFlight
+
+## Build 43 Review
+- [x] Confirm launch is stable in `full-lite` mode on `src/app` root
+- [x] Confirm visual regression: theme/token colors are incorrect in `full-lite`
+
+## Build 44 Plan
+- [x] Increment `PromptPal/app.json` iOS `buildNumber` to 44
+- [x] Align `NormalRootLite` wrappers with `NormalRoot` (Gesture/SafeArea/ErrorBoundary/StatusBar)
+- [x] Force NativeWind dark scheme in `full-lite` startup
+- [x] Sanity-check `full-lite` iOS export
+- [ ] Validate launch + theme/color correctness on device/TestFlight
+
+## Build 44 Review
+- [ ] Confirm `full-lite` is stable and visual theme matches expected app styling

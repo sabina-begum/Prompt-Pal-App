@@ -2,7 +2,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 
-type HomeIsoStage = 'placeholder' | 'auth' | 'store' | 'convex' | 'full';
+type HomeIsoStage = 'placeholder' | 'auth' | 'store' | 'convex' | 'usage' | 'full';
 
 const HOME_ISO_STAGE = (
   process.env.EXPO_PUBLIC_HOME_ISO_STAGE || 'auth'
@@ -86,6 +86,39 @@ function ConvexProbe() {
   );
 }
 
+function UsageProbe() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  // Intentionally lazy-load Convex imports so this stage isolates auth-required query hooks.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { useQuery } = require('convex/react') as { useQuery: Function };
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { api } = require('../../../convex/_generated/api.js') as {
+    api: Record<string, any>;
+  };
+
+  const queryArgs = isLoaded && isSignedIn ? { appId: 'prompt-pal' } : 'skip';
+  const usage = useQuery(api.queries.getUserUsage, queryArgs);
+
+  if (!isLoaded) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="#FF6B00" />
+        <Text style={styles.body}>Loading Home usage probe auth state...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Home Usage Probe</Text>
+      <Text style={styles.body}>Signed in: {isSignedIn ? 'yes' : 'no'}</Text>
+      <Text style={styles.body}>Usage query: {usage === undefined ? 'loading' : 'ready'}</Text>
+      {usage ? <Text style={styles.body}>Tier: {String((usage as any).tier || 'n/a')}</Text> : null}
+    </View>
+  );
+}
+
 export default function RouterIsolateHomeTab() {
   if (HOME_ISO_STAGE === 'full') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -95,6 +128,10 @@ export default function RouterIsolateHomeTab() {
 
   if (HOME_ISO_STAGE === 'convex') {
     return <ConvexProbe />;
+  }
+
+  if (HOME_ISO_STAGE === 'usage') {
+    return <UsageProbe />;
   }
 
   if (HOME_ISO_STAGE === 'store') {

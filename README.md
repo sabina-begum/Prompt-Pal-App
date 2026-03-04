@@ -115,8 +115,8 @@ An innovative multi-module mobile game that teaches players to craft perfect AI 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** 18+ and **npm** or **yarn**
-- **Expo CLI**: `npm install -g @expo/cli`
+- **Node.js** 18+ and **Bun** ([install](https://bun.sh))
+- **Expo CLI**: `bun add -g @expo/cli` or `npm install -g @expo/cli`
 - **iOS Simulator** (macOS) or **Android Emulator** or **Physical Device**
 
 ### Installation
@@ -134,7 +134,7 @@ An innovative multi-module mobile game that teaches players to craft perfect AI 
 
 3. **Install dependencies**
    ```bash
-   npm install
+   bun install
    ```
 
 4. **Set up environment variables**
@@ -145,7 +145,7 @@ An innovative multi-module mobile game that teaches players to craft perfect AI 
 
 5. **Start the development server**
    ```bash
-   npm start
+   bun start
    ```
 
 6. **Run on device/emulator**
@@ -321,7 +321,7 @@ We use [Conventional Commits](https://conventionalcommits.org/):
 ### Code Style
 - **TypeScript**: Strict mode - all code must be type-safe
 - **NativeWind**: Use Tailwind classes for styling
-- **ESLint/Prettier**: Run `npm run lint` before committing
+- **ESLint/Prettier**: Run `bun run lint` before committing
 
 ---
 

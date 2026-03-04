@@ -7,7 +7,6 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "scheme": "promptpal",
-    "newArchEnabled": true,
     "icon": "./assets/app-logo.png",
     "splash": {
       "image": "./assets/app-logo.png",
@@ -19,7 +18,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.mikhailspeaks.promptpal",
-      "buildNumber": "52",
+      "buildNumber": "57",
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "privacyManifests": {
@@ -61,12 +60,15 @@
       }
     },
     "android": {
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "adaptiveIcon": {
         "foregroundImage": "./assets/app-logo.png",
         "backgroundColor": "#FFFFFF"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d8e6ec8a-a2b7-47b1-a904-f542af38e6fc",
+      "enableBsdiffPatchSupport": true
     },
     "plugins": [
       "expo-router",

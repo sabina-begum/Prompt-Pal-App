@@ -1,6 +1,8 @@
 import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ClerkProviderWrapper, useAuth } from '@/lib/clerk';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import '../app/global.css';
@@ -36,12 +38,15 @@ export default function NormalRootLite() {
     <ClerkProviderWrapper>
       <ConvexProviderWrapper>
         <SafeAreaProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="game" />
-            <Stack.Screen name="library/[resourceId]" />
-          </Stack>
+          <ErrorBoundary>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="game" />
+              <Stack.Screen name="library/[resourceId]" />
+            </Stack>
+            <StatusBar style="light" />
+          </ErrorBoundary>
         </SafeAreaProvider>
       </ConvexProviderWrapper>
     </ClerkProviderWrapper>

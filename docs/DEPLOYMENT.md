@@ -14,7 +14,7 @@ When pushing to production, you must use **production** instances—not dev.
 
 ## Web Build (Static Export)
 
-For `npm run build:web`, Expo loads `.env.production` in production mode.
+For `bun run build:web`, Expo loads `.env.production` in production mode.
 
 1. Copy `.env.production` and fill in your **production** values:
    - **Convex**: Convex dashboard → Production deployment → Settings → Deployment URL
@@ -24,9 +24,9 @@ For `npm run build:web`, Expo loads `.env.production` in production mode.
    - Convex dashboard → Production deployment → Settings → Environment Variables
    - Add `CLERK_JWT_ISSUER_DOMAIN` = `https://clerk.promptpal.expo.dev`
 
-3. Deploy Convex to production: `npx convex deploy`
+3. Deploy Convex to production: `bunx convex deploy`
 
-4. Build: `npm run build:web`
+4. Build: `bun run build:web`
 
 ---
 

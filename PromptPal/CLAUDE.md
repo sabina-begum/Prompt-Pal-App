@@ -30,6 +30,8 @@ PromptPal helps users learn AI prompt engineering through interactive challenges
 
 ## Quick Start
 
+**Package manager**: Bun (`bun install`, `bun start`, `bun run convex:dev`)
+
 **Adding a new screen**: Create file in `src/app/(tabs)/` or appropriate route group
 
 **Adding state**: Create store in `src/features/{feature}/store.ts`

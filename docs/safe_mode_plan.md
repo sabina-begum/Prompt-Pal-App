@@ -112,7 +112,12 @@
 - Build 50 feedback: Stable on device after adding `game` route registration under `full-lite`.
 - Build 50 feedback: Full normal mode crash reproduced on launch in TestFlight (`Version 1.0.0 (50)`), signature remains `EXC_CRASH (SIGABRT)` in `ObjCTurboModule::performVoidMethodInvocation`.
 - Build 51 feedback: Stable on device after rollback to `full-lite`.
-- Build 52 (in progress): Reintroduced next `NormalRoot` wrapper chunk into `NormalRootLite` by adding `SafeAreaProvider` around the app stack; iOS buildNumber bumped to 52.
+- Build 52 feedback: Stable on device after adding `SafeAreaProvider` wrapper parity.
+- Build 53 feedback: Stable on device after adding `ErrorBoundary` wrapper parity.
+- Build 54 feedback: Stable on device after adding `StatusBar` (`light`) parity.
+- Build 55 feedback: Launch crash reproduced on TestFlight (`Version 1.0.0 (55)`, `EXC_CRASH (SIGABRT)` in React ObjC exception path) after adding `validateEnvironment()` effect in `NormalRootLite`.
+- Build 56 feedback: Stable on device after reverting `validateEnvironment()` effect from `NormalRootLite`.
+- Build 57 (in progress): Restored native iOS tabs surface by switching `(tabs)` layouts back to `expo-router/unstable-native-tabs` (liquid glass behavior) while keeping auth gate logic; iOS buildNumber bumped to 57.
 
 ## Current Status
 
@@ -123,8 +128,8 @@
 
 ## If You're Picking This Up
 
-1. **Current build:** 52. Router profile uses `EXPO_PUBLIC_BOOT_MODE=full-lite`; app root is `src/app`, entry uses `NormalRootLite`.
-2. **Next step:** Validate Build 52 on device (cold launch, sign-in, tabs, library detail, game route, relaunch/session persistence). If stable, continue with the next single wrapper chunk from `NormalRoot`.
+1. **Current build:** 57. Router profile uses `EXPO_PUBLIC_BOOT_MODE=full-lite`; app root is `src/app`, entry uses `NormalRootLite`.
+2. **Next step:** Validate Build 57 on device (cold launch, sign-in, native tab bar appearance/interaction, library detail, game route, relaunch/session persistence).
 3. **Always:** Use **local** EAS build and device validation; see Verification Loop and Device validation checklist below.
 4. **Do not:** Change React version, disable New Architecture, or add large unreversible chunks.
 
@@ -134,7 +139,7 @@
 1. Increment 1 (Tabs): Completed and verified in build 17.
 2. Increment 2 (Auth): Completed and verified in build 18.
 3. Increment 3 (Features): Completed. Full Library stage is stable and signed-in auth path is validated in router isolation (build 31).
-4. Increment 4 (Features): In progress. Build 52 adds `SafeAreaProvider` wrapper parity in `full-lite` while maintaining controlled rollout.
+4. Increment 4 (Features): In progress. Build 57 focuses on tab UI parity by restoring native tabs while preserving stable boot scaffolding.
 
 ## Verification Loop (Per Increment)
 1. Add one chunk only.

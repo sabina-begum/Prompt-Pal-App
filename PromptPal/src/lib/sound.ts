@@ -56,42 +56,42 @@ class SoundManager {
 
   /**
    * Initialize audio mode
-   * TODO: Install expo-av and implement actual sound loading when audio assets are ready
+   * TODO: Install expo-audio and implement actual sound loading when audio assets are ready
    */
   async initialize() {
     this.isInitialized = true;
   }
 
   /**
-   * Play a sound effect (placeholder until expo-av is installed)
+   * Play a sound effect (placeholder until expo-audio is installed)
    */
   async play(soundName: 'success' | 'error' | 'button' | 'levelComplete') {
     const { soundsEnabled } = useSoundSettings.getState();
     if (!soundsEnabled || !this.isInitialized) {
       return;
     }
-    // No-op until expo-av is installed and audio assets are added
+    // No-op until expo-audio is installed and audio assets are added
   }
 
   /**
    * Stop a specific sound
    */
   async stop(_soundName: 'success' | 'error' | 'button' | 'levelComplete') {
-    // No-op until expo-av is installed
+    // No-op until expo-audio is installed
   }
 
   /**
    * Stop all sounds
    */
   async stopAll() {
-    // No-op until expo-av is installed
+    // No-op until expo-audio is installed
   }
 
   /**
    * Unload all sounds (cleanup)
    */
   async unloadAll() {
-    // No-op until expo-av is installed
+    // No-op until expo-audio is installed
   }
 }
 

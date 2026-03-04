@@ -127,8 +127,8 @@ Each phase document contains:
 ## 🛠️ Technical Requirements
 
 ### Prerequisites
-- **Node.js** 18+ and **npm** or **yarn**
-- **Expo CLI**: `npm install -g @expo/cli`
+- **Node.js** 18+ and **Bun** ([install](https://bun.sh))
+- **Expo CLI**: `bun add -g @expo/cli` or `npm install -g @expo/cli`
 - **iOS Simulator** (macOS) or **Android Emulator** or **Physical Device**
 - **Google Cloud Account** with billing enabled
 - **Apple Developer Account** ($99/year) for iOS deployment

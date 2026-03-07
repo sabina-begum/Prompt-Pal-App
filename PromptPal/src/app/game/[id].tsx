@@ -1005,6 +1005,35 @@ export default function GameScreen() {
                     ))}
                   </View>
                 )}
+
+                {level.requiredElements && level.requiredElements.length > 0 && (
+                  <View className="mb-4">
+                    <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-widest mb-2">
+                      Required Elements
+                    </Text>
+                    <View className="bg-surfaceVariant/30 rounded-2xl p-4">
+                      {level.requiredElements.map((element, index) => (
+                        <View key={`${level.id}-required-${index}`} className="flex-row items-center mb-2 last:mb-0">
+                          <View className="w-4 h-4 rounded-full bg-primary/20 items-center justify-center mr-3">
+                            <Text className="text-primary text-xs font-bold">✓</Text>
+                          </View>
+                          <Text className="text-onSurface text-sm flex-1">{element}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                )}
+
+                {level.wordLimit && (
+                  <View className="mt-4 flex-row items-center">
+                    <Text className="text-onSurfaceVariant text-xs mr-2">Word Limit:</Text>
+                    <Badge
+                      label={`${level.wordLimit.min || 0}-${level.wordLimit.max || 500} words`}
+                      variant="surface"
+                      className="bg-surfaceVariant border-0"
+                    />
+                  </View>
+                )}
               </View>
             ) : (
               <View className="p-6">
@@ -1042,6 +1071,14 @@ export default function GameScreen() {
     const hintsRemaining = level ? NanoAssistant.getHintsRemaining(level.id, level.difficulty) : 0;
     const maxHints = level ? NanoAssistant.getMaxHintsPerLevel(level.difficulty) : 4;
     const noHintsLeft = hintsRemaining === 0;
+
+    // Word and character counting for copywriting
+    const wordCount = level?.type === 'copywriting' ? prompt.trim().split(/\s+/).filter(word => word.length > 0).length : 0;
+    const charCount = prompt.length;
+    const wordLimit = level?.wordLimit;
+    const wordProgress = wordLimit ? Math.min((wordCount / wordLimit.max) * 100, 100) : 0;
+    const isWordOverLimit = wordLimit && wordCount > wordLimit.max;
+    const isWordUnderLimit = wordLimit && wordCount < wordLimit.min;
 
     return (
       <View className="px-6 pb-8">
@@ -1114,13 +1151,48 @@ export default function GameScreen() {
               inputAccessoryViewID={Platform.OS === 'ios' ? inputAccessoryId : undefined}
             />
 
-            <View className="flex-row items-center">
-              <View className="flex-row">
-                <Badge label={`${charCount} chars`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
-                <Badge label={`${tokenCount} tokens`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
-                {level.type === 'image' && <Badge label={level.style || ''} variant="primary" className="bg-primary/20 border-0 px-3" />}
+            {level.type === 'copywriting' ? (
+              <View className="space-y-3">
+                {/* Word Count with Progress Bar */}
+                {wordLimit && (
+                  <View>
+                    <View className="flex-row justify-between items-center mb-2">
+                      <Text className="text-onSurfaceVariant text-xs font-bold uppercase tracking-widest">
+                        Word Count
+                      </Text>
+                      <Text className={`text-xs font-bold ${isWordOverLimit ? 'text-error' : isWordUnderLimit ? 'text-warning' : 'text-success'}`}>
+                        {wordCount} / {wordLimit.min}-{wordLimit.max}
+                      </Text>
+                    </View>
+                    <View className="h-2 bg-surfaceVariant rounded-full overflow-hidden">
+                      <View
+                        className={`h-full rounded-full transition-all duration-300 ${
+                          isWordOverLimit ? 'bg-error' : isWordUnderLimit ? 'bg-warning' : 'bg-success'
+                        }`}
+                        style={{ width: `${wordProgress}%` }}
+                      />
+                    </View>
+                  </View>
+                )}
+
+                {/* Character and Token Counts */}
+                <View className="flex-row items-center">
+                  <View className="flex-row">
+                    <Badge label={`${charCount} chars`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
+                    <Badge label={`${tokenCount} tokens`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
+                    {level.type === 'image' && <Badge label={level.style || ''} variant="primary" className="bg-primary/20 border-0 px-3" />}
+                  </View>
+                </View>
               </View>
-            </View>
+            ) : (
+              <View className="flex-row items-center">
+                <View className="flex-row">
+                  <Badge label={`${charCount} chars`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
+                  <Badge label={`${tokenCount} tokens`} variant="surface" className="bg-surfaceVariant mr-2 border-0 px-3" />
+                  {level.type === 'image' && <Badge label={level.style || ''} variant="primary" className="bg-primary/20 border-0 px-3" />}
+                </View>
+              </View>
+            )}
           </Card>
         </View>
 

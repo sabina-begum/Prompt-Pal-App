@@ -10,9 +10,10 @@
  */
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Card, RadarChart, Badge } from '@/components/ui';
 import type { CopyScoringResult } from '@/lib/scoring/copyScoring';
+import * as Clipboard from 'expo-clipboard';
 
 export interface CopyAnalysisViewProps {
   /** The generated copy text */
@@ -61,9 +62,22 @@ export function CopyAnalysisView({
     <View className="px-6 pb-8">
       {/* Generated Copy Display */}
       <Card className="p-6 rounded-[32px] mb-6" variant="elevated">
-        <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-[2px] mb-3">
-          Generated Copy
-        </Text>
+        <View className="flex-row items-center justify-between mb-3">
+          <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-[2px]">
+            Generated Copy
+          </Text>
+          <TouchableOpacity
+            onPress={async () => {
+              await Clipboard.setStringAsync(copy);
+              // Could add a toast notification here
+            }}
+            className="px-3 py-1.5 rounded-full border border-outline/40 bg-surfaceVariant/30"
+          >
+            <Text className="text-onSurface text-[10px] font-bold uppercase tracking-widest">
+              Copy
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View className="bg-surfaceVariant/30 rounded-2xl p-4">
           <Text className="text-onSurface text-base leading-6 font-medium">
             {copy}
@@ -103,24 +117,42 @@ export function CopyAnalysisView({
 
       {/* Metrics Radar Chart */}
       {hasResult && metrics.length > 0 && (
-        <Card className="p-6 rounded-[32px] mb-6 items-center" variant="elevated">
-          <Text className="text-onSurface text-xs font-black uppercase tracking-[2px] mb-4">
-            Metrics Breakdown
-          </Text>
-          <RadarChart metrics={metrics} size={240} />
-          
-          {/* Metric Values Grid */}
-          <View className="flex-row flex-wrap justify-center mt-4">
-            {metrics.map((metric, index) => (
-              <View key={index} className="items-center mx-2 mb-3">
-                <Text className="text-primary text-lg font-black">
-                  {Math.round(metric.value / 10)}/10
-                </Text>
-                <Text className="text-onSurfaceVariant text-[10px] font-black uppercase">
-                  {metric.label}
-                </Text>
-              </View>
-            ))}
+        <Card className="p-6 rounded-[32px] mb-6" variant="elevated">
+          <View className="items-center mb-6">
+            <Text className="text-onSurface text-sm font-black uppercase tracking-[2px] mb-6">
+              Copy Quality Metrics
+            </Text>
+            <RadarChart metrics={metrics} size={280} />
+          </View>
+
+          {/* Enhanced Metric Values Grid */}
+          <View className="bg-surfaceVariant/30 rounded-2xl p-4">
+            <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-widest mb-3 text-center">
+              Detailed Scores
+            </Text>
+            <View className="flex-row flex-wrap justify-center">
+              {metrics.map((metric, index) => {
+                const score = Math.round(metric.value / 10);
+                const isHighScore = score >= 8;
+                const isMediumScore = score >= 6;
+                return (
+                  <View key={index} className="items-center mx-3 mb-4 min-w-[70px]">
+                    <View className={`w-12 h-12 rounded-full items-center justify-center mb-2 ${
+                      isHighScore ? 'bg-success/20' : isMediumScore ? 'bg-warning/20' : 'bg-error/20'
+                    }`}>
+                      <Text className={`text-lg font-black ${
+                        isHighScore ? 'text-success' : isMediumScore ? 'text-warning' : 'text-error'
+                      }`}>
+                        {score}
+                      </Text>
+                    </View>
+                    <Text className="text-onSurfaceVariant text-[9px] font-black uppercase text-center leading-3">
+                      {metric.label.replace(' ', '\n')}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
           </View>
         </Card>
       )}

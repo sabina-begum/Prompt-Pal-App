@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { Button, Input, Card, Badge, ProgressBar, RadarChart, ResultModal } from '@/components/ui';
+import { Button, Input, Card, Badge, ProgressBar, ResultModal } from '@/components/ui';
 import { getLevelById as getLocalLevelById, fetchLevelsFromApi, getLevelsByModuleId } from '@/features/levels/data';
 import { useGameStore, Level, ChallengeType } from '@/features/game/store';
 import { useUserProgressStore } from '@/features/user/store';
@@ -1234,28 +1234,6 @@ export default function GameScreen() {
     );
   };
 
-  const renderFeedbackSection = () => {
-    if (level.type !== 'copywriting' || !level.metrics || level.metrics.length === 0) return null;
-
-    return (
-      <View className="px-6 pb-8">
-        <Text className="text-onSurface text-xl font-black mb-4">AI Feedback & Output</Text>
-        <Card className="p-6 rounded-[32px] items-center">
-          <RadarChart metrics={level.metrics || []} size={width - 100} />
-
-          <View className="flex-row w-full justify-around mt-6">
-            {level.metrics?.map((m: { label: string; value: number }, i: number) => (
-              <View key={i} className="items-center">
-                <Text className="text-primary text-2xl font-black">{m.value / 10}</Text>
-                <Text className="text-onSurfaceVariant text-[10px] font-black uppercase">{m.label}</Text>
-              </View>
-            ))}
-          </View>
-        </Card>
-      </View>
-    );
-  };
-
   // Show loading state
   if (isLoading) {
     return (
@@ -1367,7 +1345,6 @@ export default function GameScreen() {
           {level.type === 'copywriting' && renderCopywritingChallenge()}
 
           {renderPromptSection()}
-          {renderFeedbackSection()}
         </ScrollView>
       </KeyboardAvoidingView>
 

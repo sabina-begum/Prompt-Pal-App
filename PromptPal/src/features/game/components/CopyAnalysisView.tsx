@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { Card, RadarChart, Badge } from '@/components/ui';
 import type { CopyScoringResult } from '@/lib/scoring/copyScoring';
 
@@ -98,20 +98,6 @@ export function CopyAnalysisView({
             </View>
           </View>
           
-          {/* Feedback */}
-          {scoringResult?.feedback && scoringResult.feedback.length > 0 && (
-            <View className="mt-2">
-              <Text className="text-onSurfaceVariant text-[10px] font-black uppercase tracking-widest mb-2">
-                Feedback
-              </Text>
-              {scoringResult.feedback.map((item, index) => (
-                <View key={index} className="flex-row mb-1">
-                  <Text className="text-primary text-xs mr-2">•</Text>
-                  <Text className="text-onSurface text-sm flex-1">{item}</Text>
-                </View>
-              ))}
-            </View>
-          )}
         </Card>
       )}
 

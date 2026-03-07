@@ -11,6 +11,7 @@ import { UsageDisplay } from '@/components/UsageDisplay';
 import { useUsage, UsageStats } from '@/lib/usage';
 import { useGameStore } from '@/features/game/store';
 import { useUserProgressStore, getOverallProgress } from '@/features/user/store';
+import { logDailyQuestStart } from '@/lib/analytics';
 import { logger } from '@/lib/logger';
 import { SignOutButton } from '@/components/SignOutButton';
 import { Button, Card, Modal, ProgressBar, StatCard } from '@/components/ui';
@@ -47,6 +48,7 @@ export interface DailyQuest {
   timeRemaining: number;
   completed: boolean;
   expiresAt: number;
+  questType?: 'image' | 'code' | 'copywriting';
 }
 
 // --- Sub-components ---
@@ -124,11 +126,12 @@ const QuestCard = memo(function QuestCard({ quest }: QuestCardProps) {
 
   const handleStartQuest = useCallback(() => {
     if (quest.id) {
+      logDailyQuestStart(quest.id, quest.questType ?? 'unknown');
       router.push(`/game/quest/${quest.id}`);
     } else {
       Alert.alert('Quest Unavailable', 'This quest is currently locked.');
     }
-  }, [quest.id, router]);
+  }, [quest.id, quest.questType, router]);
 
   return (
     <View className="bg-info p-6 rounded-[32px] mb-10 overflow-hidden shadow-lg shadow-info/30">
@@ -156,12 +159,18 @@ const QuestCard = memo(function QuestCard({ quest }: QuestCardProps) {
           </View>
           <Text className="text-white font-black text-lg">+{quest.xpReward} XP</Text>
         </View>
-        <Pressable
-          onPress={handleStartQuest}
-          className="bg-white px-8 py-4 rounded-full shadow-sm active:opacity-80"
-        >
-          <Text className="text-info font-black text-sm uppercase tracking-widest">Start Quest</Text>
-        </Pressable>
+        {quest.completed ? (
+          <View className="bg-white/20 px-8 py-4 rounded-full">
+            <Text className="text-white font-black text-sm uppercase tracking-widest">Completed</Text>
+          </View>
+        ) : (
+          <Pressable
+            onPress={handleStartQuest}
+            className="bg-white px-8 py-4 rounded-full shadow-sm active:opacity-80"
+          >
+            <Text className="text-info font-black text-sm uppercase tracking-widest">Start Quest</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

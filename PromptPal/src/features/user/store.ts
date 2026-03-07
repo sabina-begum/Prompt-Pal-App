@@ -89,6 +89,7 @@ export interface DailyQuest {
   timeRemaining: number; // hours
   completed: boolean;
   expiresAt: number; // timestamp
+  questType?: 'image' | 'code' | 'copywriting';
 }
 
 export interface UserProgress {

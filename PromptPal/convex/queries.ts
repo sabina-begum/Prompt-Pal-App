@@ -55,16 +55,6 @@ export const getUserUsage = query({
       .withIndex("by_app_id", (q) => q.eq("id", appId))
       .first();
 
-    if (!app) {
-      throw new Error(`App ${appId} not found`);
-    }
-
-    // Get user plan
-    const plan = await ctx.db
-      .query("appPlans")
-      .withIndex("by_user_app", (q) => q.eq("userId", userId).eq("appId", appId))
-      .first();
-
     const now = Date.now();
     // Calculate actual days in current month for accurate quota periods
     const currentDate = new Date(now);
@@ -72,6 +62,30 @@ export const getUserUsage = query({
     const month = currentDate.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const oneMonthMs = daysInMonth * 24 * 60 * 60 * 1000;
+
+    if (!app) {
+      return {
+        tier: "free" as const,
+        used: {
+          textCalls: 0,
+          imageCalls: 0,
+          audioSummaries: 0,
+        },
+        limits: {
+          textCalls: 50,
+          imageCalls: 50,
+          audioSummaries: 0,
+        },
+        periodStart: now,
+        periodEnd: now + oneMonthMs,
+      };
+    }
+
+    // Get user plan
+    const plan = await ctx.db
+      .query("appPlans")
+      .withIndex("by_user_app", (q) => q.eq("userId", userId).eq("appId", appId))
+      .first();
 
     let tier: "free" | "pro" = "free";
     let used = {

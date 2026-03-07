@@ -1602,6 +1602,7 @@ export const getOrAssignCurrentQuest = mutation({
       title: quest.title,
       description: quest.description,
       xpReward: quest.xpReward,
+      questType: quest.questType,
       timeRemaining,
       completed: completion?.completed ?? false,
       expiresAt: quest.expiresAt ?? now + MS_PER_DAY,
